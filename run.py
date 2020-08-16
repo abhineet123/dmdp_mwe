@@ -5,10 +5,10 @@ from paramparse import MultiPath
 
 from data import Data
 from tester import Tester
-from utilities import linux_path, CustomLogger, BaseParams
+from utilities import linux_path, CustomLogger
 
 
-class RunParams(BaseParams):
+class RunParams:
     """
     Iterative Batch Train Parameters
     :type load_prefix: MultiPath
