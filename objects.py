@@ -6,8 +6,7 @@ import ast
 
 from paramparse import MultiPath
 
-from utilities import compute_overlaps_multi, CrossOverlaps, SelfOverlaps, CustomLogger, MDPStates, \
-    add_suffix
+from utilities import compute_overlaps_multi, CrossOverlaps, SelfOverlaps, CustomLogger, MDPStates
 
 
 class Objects:
