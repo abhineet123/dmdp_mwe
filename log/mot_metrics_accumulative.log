@@ -1,2 +1,0 @@
-timestamp                                         	file                                              	    IDF1	     IDP	     IDR	    Rcll	    Prcn	    GT	      MT	      PT	      ML	    FP	    FN	   IDs	      FM	    MOTA	    MOTP	     MT(%)	     ML(%)	     PT(%)
-200816_100819_850543	log/no_ibt_mot17_0_6_100_100/lk_wrapper_tmpls2_svm_min10_active_pt_svm/MOT17_0_6_100_100/max_lost0	0.463785	0.967281	0.305016	0.315318	0.999954	   796	126.000000	268.000000	402.000000	     3	140155	   465	587.000000	0.313032	0.251855	15.829146	50.502513	33.668342
