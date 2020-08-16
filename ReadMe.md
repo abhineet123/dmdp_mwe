@@ -2,7 +2,7 @@
 
 - [setting up developmet kit](#setting_up_developmet_ki_t_)
     - [matlab_python_engine       @ setting_up_developmet_kit](#matlab_python_engine___setting_up_developmet_ki_t_)
-- [compile](#compile_)
+    - [compile       @ setting_up_developmet_kit](#compile___setting_up_developmet_ki_t_)
 - [running](#running_)
     - [mot15       @ running](#mot15___runnin_g_)
         - [motmetrics       @ mot15/running](#motmetrics___mot15_runnin_g_)
@@ -20,8 +20,8 @@
 ## matlab_python_engine       @ setting_up_developmet_kit
 python3 /usr/local/MATLAB/R2020a/extern/engines/python/setup.py install
 
-<a id="compile_"></a>
-# compile
+<a id="compile___setting_up_developmet_ki_t_"></a>
+## compile       @ setting_up_developmet_kit
 cd evaluation/devkit/matlab_devkit
 matlab
 compile
