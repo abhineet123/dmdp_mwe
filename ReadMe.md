@@ -1,8 +1,8 @@
 <!-- MarkdownTOC -->
 
-- [setup developmet kit](#setup_developmet_ki_t_)
-    - [matlab_python_engine       @ setup_developmet_kit](#matlab_python_engine___setup_developmet_kit_)
-    - [compile       @ setup_developmet_kit](#compile___setup_developmet_kit_)
+- [setup development kit](#setup_development_ki_t_)
+    - [matlab_python_engine       @ setup_development_kit](#matlab_python_engine___setup_development_ki_t_)
+    - [compile       @ setup_development_kit](#compile___setup_development_ki_t_)
 - [install](#install_)
 - [run](#run_)
     - [mot15       @ run](#mot15___ru_n_)
@@ -14,19 +14,19 @@
 
 <!-- /MarkdownTOC -->
 
-<a id="setup_developmet_ki_t_"></a>
-# setup developmet kit
+<a id="setup_development_ki_t_"></a>
+# setup development kit
 
-<a id="matlab_python_engine___setup_developmet_kit_"></a>
-## matlab_python_engine       @ setup_developmet_kit
+<a id="matlab_python_engine___setup_development_ki_t_"></a>
+## matlab_python_engine       @ setup_development_kit
 
 install matlab and adjust version as needed
 
 ```
 python3 /usr/local/MATLAB/R2020a/extern/engines/python/setup.py install
 ```
-<a id="compile___setup_developmet_kit_"></a>
-## compile       @ setup_developmet_kit
+<a id="compile___setup_development_ki_t_"></a>
+## compile       @ setup_development_kit
 ```
 cd evaluation/devkit/matlab_devkit
 matlab
