@@ -510,14 +510,7 @@ class Annotations(Objects):
             dist_func = mm.distances.norm2squared_matrix
             self._logger.info('Using squared Euclidean distance')
 
-        # cross_overlaps = utils.CrossOverlaps()
-        # cross_overlaps.compute(self.data[:, 2:6], obj.data[:, 2:6], self.idx, obj.idx, self.n_frames)
         print_diff = int(self.n_frames / 10)
-        states = track_res.states
-        is_valid = track_res.is_valid
-
-        # states = None
-        # is_valid = None
 
         for frame_id in range(self.n_frames):
             idx1 = self.idx[frame_id]
@@ -530,23 +523,12 @@ class Annotations(Objects):
                 ids_1 = []
 
             if idx2 is not None:
-                if states is not None:
-                    _states = states[idx2]
-                    tracked_idx2 = idx2[_states == MDPStates.tracked]
-                    idx2 = tracked_idx2
-
-                if is_valid is not None:
-                    _is_valid = is_valid[idx2].astype(np.bool)
-                    valid_idx2 = idx2[_is_valid]
-                    idx2 = valid_idx2
-
                 bbs_2 = track_res.data[idx2, 2:6]
                 ids_2 = track_res.data[idx2, 1]
             else:
                 bbs_2 = []
                 ids_2 = []
 
-            # dist = cross_overlaps.iou[frame_id]
             dist = dist_func(bbs_1, bbs_2)
             acc.update(ids_1, ids_2, dist)
             if print_diff > 0 and (frame_id + 1) % print_diff == 0:
@@ -600,9 +582,6 @@ class TrackingResults(Annotations):
         """
         self._params = params
 
-        self.states = None
-        self.is_valid = None
-
     def read(self, resize_factor):
         """
         :type build_index: bool
@@ -620,23 +599,9 @@ class TrackingResults(Annotations):
         n_data_cols = self.data.shape[1]
 
         if n_data_cols != 10:
-            if n_data_cols == 12:
-                if self._params.allow_debug == 2:
-                    self.is_valid = self.data[:, 11]
-                    self.states = self.data[:, 10]
-                    self.data = self.data[:, :10]
-                else:
-                    raise IOError('Data has 12 columns which is invalid when invalid trajectories are not allowed')
-            elif n_data_cols == 11:
-                if self._params.allow_debug:
-                    self.states = self.data[:, 10]
-                    self.data = self.data[:, :10]
-                else:
-                    raise IOError('Data has 11 columns which is invalid when reading states is not allowed')
-            else:
-                self._logger.error('Data file has incorrect data dimensionality: {:d}'.format(
-                    self.data.shape[1]))
-                return False
+            self._logger.error('Data file has incorrect data dimensionality: {:d}'.format(
+                self.data.shape[1]))
+            return False
 
         """curtail data to subsequence"""
         self._curtail()
