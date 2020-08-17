@@ -10,6 +10,8 @@ from contextlib import contextmanager
 from datetime import datetime
 from colorlog import ColoredFormatter
 
+logging.getLogger('matplotlib').setLevel(logging.ERROR)
+
 
 class MDPStates:
     inactive, active, tracked, lost = range(4)

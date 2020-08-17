@@ -559,7 +559,6 @@ class Annotations(Objects):
         return summary, strsummary, acc
 
 
-
 class TrackingResults(Annotations):
     """
     :type _params: TrackingResults.Params
