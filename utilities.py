@@ -22,6 +22,7 @@ class MDPStates:
         3: 'lost',
     }
 
+
 class CustomLogger:
     """
     :type _backend: logging.RootLogger | logging.logger
@@ -202,6 +203,7 @@ def profile(_id, _times, _rel_times, enable=1):
                 rel_times = [(k, v) for k, v in sorted(_rel_times.items(), key=lambda item: item[1])]
 
                 print(f'rel_times:\n {pformat(rel_times)}')
+
 
 # overlaps between two sets of labeled objects, typically the annotations and the detections
 class CrossOverlaps:
@@ -468,6 +470,7 @@ def compute_overlaps_multi(iou, ioa_1, ioa_2, objects_1, objects_2, logger=None)
     if ioa_2 is not None:
         ioa_2[:] = np.divide(area_inter, area_2_rep)  # n1 x n2
 
+
 def parse_seq_IDs(ids):
     out_ids = []
     if isinstance(ids, int):
@@ -488,6 +491,7 @@ def parse_seq_IDs(ids):
 
 def linux_path(*args, **kwargs):
     return os.path.join(*args, **kwargs).replace(os.sep, '/')
+
 
 def combined_motmetrics(acc_dict, logger):
     # logger.info(f'Computing overall MOT metrics over {len(acc_dict)} sequences...')
@@ -521,19 +525,21 @@ def combined_motmetrics(acc_dict, logger):
 
     return summary, strsummary
 
+
 def motmetrics_to_file(eval_paths, summary, load_fname, seq_name,
-                       mode='a', time_stamp='', verbose=1):
+                       mode='a', time_stamp='', verbose=1, devkit=0):
     """
 
     :param eval_paths:
     :param summary:
     :param load_fname:
     :param seq_name:
-    :param logger:
     :param mode:
-    :param combined_accuracies:
+    :param time_stamp:
+    :param verbose:
     :return:
     """
+
     if not time_stamp:
         time_stamp = datetime.now().strftime("%y%m%d_%H%M%S")
 
@@ -554,9 +560,10 @@ def motmetrics_to_file(eval_paths, summary, load_fname, seq_name,
                         eval_fid.write('\t{:>6}'.format(_metric))
                     else:
                         eval_fid.write('\t{:>8}'.format(_metric))
-                eval_fid.write('\t{:>10}'.format('MT(%)'))
-                eval_fid.write('\t{:>10}'.format('ML(%)'))
-                eval_fid.write('\t{:>10}'.format('PT(%)'))
+                if not devkit:
+                    eval_fid.write('\t{:>10}'.format('MT(%)'))
+                    eval_fid.write('\t{:>10}'.format('ML(%)'))
+                    eval_fid.write('\t{:>10}'.format('PT(%)'))
 
                 eval_fid.write('\n')
             eval_fid.write('{:13s}'.format(time_stamp))
@@ -571,16 +578,17 @@ def motmetrics_to_file(eval_paths, summary, load_fname, seq_name,
                     eval_fid.write('\t{:6d}'.format(int(_val)))
                 else:
                     eval_fid.write('\t{:.6f}'.format(_val))
-            try:
-                _gt = float(summary['GT'][seq_name])
-            except KeyError:
-                pass
-            else:
-                mt_percent = float(summary['MT'][seq_name]) / _gt * 100.0
-                ml_percent = float(summary['ML'][seq_name]) / _gt * 100.0
-                pt_percent = float(summary['PT'][seq_name]) / _gt * 100.0
-                eval_fid.write('\t{:3.6f}\t{:3.6f}\t{:3.6f}'.format(
-                    mt_percent, ml_percent, pt_percent))
+            if not devkit:
+                try:
+                    _gt = float(summary['GT'][seq_name])
+                except KeyError:
+                    pass
+                else:
+                    mt_percent = float(summary['MT'][seq_name]) / _gt * 100.0
+                    ml_percent = float(summary['ML'][seq_name]) / _gt * 100.0
+                    pt_percent = float(summary['PT'][seq_name]) / _gt * 100.0
+                    eval_fid.write('\t{:3.6f}\t{:3.6f}\t{:3.6f}'.format(
+                        mt_percent, ml_percent, pt_percent))
 
             eval_fid.write('\n')
 
@@ -591,4 +599,3 @@ def add_suffix(src_path, suffix):
     src_name, src_ext = os.path.splitext(os.path.basename(src_path))
     dst_path = os.path.join(src_dir, src_name + '_' + suffix + src_ext)
     return dst_path
-

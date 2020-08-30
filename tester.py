@@ -20,7 +20,7 @@ class Tester:
     class Params:
         def __init__(self):
 
-            self.eval_with_devkit = 0
+            self.devkit = 0
             self.accumulative_eval_path = 'log/mot_metrics_accumulative.log'
             self.input = Input.Params()
 
@@ -75,7 +75,7 @@ class Tester:
         assert self.input.tracking_res is not None, "tracking results have not been loaded"
 
         seq_name = os.path.splitext(os.path.basename(load_fname))[0]
-        if self._params.eval_with_devkit:
+        if self._params.devkit:
             gtfiles = [self.input.annotations.path, ]
             tsfiles = [self.input.tracking_res.path, ]
             sequences = [seq_name, ]
@@ -97,7 +97,7 @@ class Tester:
             if _eval is None:
                 return None
             motmetrics_to_file((eval_path,), _eval, load_fname, seq_name,
-                               mode='a', time_stamp=time_stamp)
+                               mode='a', time_stamp=time_stamp, devkit=self._params.devkit)
 
         self._acc_dict[self.input.seq_name] = acc
 
@@ -113,7 +113,7 @@ class Tester:
         """
         accumulative_eval_path = self._params.accumulative_eval_path
 
-        if self._params.eval_with_devkit:
+        if self._params.devkit:
             accumulative_eval_path = add_suffix(accumulative_eval_path, 'devkit')
             eval_path = add_suffix(eval_path, 'devkit')
 
@@ -122,7 +122,7 @@ class Tester:
         if not self._acc_dict or len(self._acc_dict) == 0:
             return
 
-        if self._params.eval_with_devkit:
+        if self._params.devkit:
             from evaluation.devkit.MOT.evalMOT import MOT_evaluator
             gtfiles = []
             tsfiles = []
@@ -144,12 +144,13 @@ class Tester:
                 _args = self._acc_dict[_seq]
                 _gtfiles, _tsfiles, _datadir, _sequences, _benchmark_name = _args
                 motmetrics_to_file((eval_path,), summary, _tsfiles[0], _sequences[0], mode='a',
-                                   time_stamp=time_stamp, verbose=0)
+                                   time_stamp=time_stamp, verbose=0, devkit=self._params.devkit)
 
         else:
             summary, strsummary = combined_motmetrics(self._acc_dict, _logger)
 
-        motmetrics_to_file((eval_path, accumulative_eval_path), summary, load_dir, 'OVERALL', time_stamp=time_stamp)
+        motmetrics_to_file((eval_path, accumulative_eval_path), summary, load_dir, 'OVERALL',
+                           time_stamp=time_stamp, devkit=self._params.devkit)
 
     def load(self, load_path):
         """
